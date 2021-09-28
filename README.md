@@ -1,4 +1,15 @@
-# game-of-life-client
+# Game Of Life Client
+
+Client for "Game Of Life", it handles user interaction and the basic logic to time progretion and rendering.
+
+1. Show an editable seed to start the process
+2. Per ogni cella nella porzione significativa dell'unirso chiama il server con la sua matrice 3x3
+3. attendere un po'
+4. ripetere dal punto 2
+
+Le chiamate vengono fatte su ogni cella del range significativo perche' solo il server conosce la regola per procedere.
+
+Per range significativo si intede il rettangolo che contiene tutte le celle vive allargato di 1. Potenzialmente puo' sia espandersi che restringersi.
 
 ## Build Setup
 
