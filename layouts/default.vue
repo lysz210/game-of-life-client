@@ -83,7 +83,7 @@
       :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} by Lysz210</span>
     </v-footer>
   </v-app>
 </template>
@@ -110,7 +110,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Conway\'s Game of Live'
     }
   }
 }
