@@ -22,7 +22,7 @@
         </v-card-title>
         <v-card-text>
           <p
-            v-for="(row, i) in seed"
+            v-for="(row, i) in seed.matrix"
             :key="i"
             class="row"
           >
@@ -42,34 +42,25 @@
 
 <script>
 import { ref } from '@vue/composition-api'
+import { Grid } from '~/lib/universe'
 export default {
   data: () => ({
-    size: 11,
-    seed: []
+    seed: new Grid(5, () => ref(0))
   }),
   created () {
-    this.updateSeedGrid()
-    this.seed[5][3].value = 1
-    this.seed[6][4].value = 1
-    this.seed[7][5].value = 1
-    this.seed[6][6].value = 1
-    this.seed[5][7].value = 1
-    this.seed[4][6].value = 1
-    this.seed[3][5].value = 1
-    this.seed[4][4].value = 1
+    this.seed.matrix[2][0].value = 1
+    this.seed.matrix[1][1].value = 1
+    this.seed.matrix[0][2].value = 1
+    this.seed.matrix[1][3].value = 1
+    this.seed.matrix[2][4].value = 1
+    this.seed.matrix[3][3].value = 1
+    this.seed.matrix[4][2].value = 1
+    this.seed.matrix[3][1].value = 1
+    this.seed.expand(3)
   },
   methods: {
     toggle (cell) {
       cell.value = (cell.value + 1) % 2
-    },
-    updateSeedGrid () {
-      this.seed = new Array(this.size)
-      for (let i = 0; i < this.size; i++) {
-        this.seed[i] = new Array(this.size)
-        for (let j = 0; j < this.size; j++) {
-          this.seed[i][j] = ref(0)
-        }
-      }
     }
   }
 }
