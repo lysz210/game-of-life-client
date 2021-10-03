@@ -27,7 +27,7 @@
 
 <script>
 import { ref } from '@vue/composition-api'
-import { delay, from, mergeMap, tap } from 'rxjs'
+import { delay, from, mergeMap } from 'rxjs'
 import { Grid } from '~/lib/universe'
 export default {
   data: () => ({
@@ -53,8 +53,7 @@ export default {
       from(this.seed.explode())
         .pipe(
           delay(3000),
-          mergeMap(sector => this.$golApi.process(sector)),
-          tap(console.log)
+          mergeMap(sector => this.$golApi.process(sector))
         )
         .subscribe(
           cell => this.seed.updateCell(cell),
