@@ -1,18 +1,3 @@
-<style scoped>
-  .row {
-    margin: 0;
-  }
-  .cell {
-    display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    background-color: white;
-    border: 1px solid black;
-  }
-  .cell.active {
-    background-color: red;
-  }
-</style>
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
@@ -29,10 +14,10 @@
             <span
               v-for="(cell, j) in row"
               :key="`${i},${j}`"
-              @click="toggle(cell)"
               class="cell"
               :class="{active: cell.value === 1}"
-            ></span>
+              @click="toggle(cell)"
+            />
           </p>
         </v-card-text>
       </v-card>
@@ -42,6 +27,7 @@
 
 <script>
 import { ref } from '@vue/composition-api'
+import { delay, from, mergeMap, tap } from 'rxjs'
 import { Grid } from '~/lib/universe'
 export default {
   data: () => ({
@@ -57,11 +43,41 @@ export default {
     this.seed.matrix[4][2].value = 1
     this.seed.matrix[3][1].value = 1
     this.seed.expand(3)
+    this.updateUniverse()
   },
   methods: {
     toggle (cell) {
       cell.value = (cell.value + 1) % 2
+    },
+    updateUniverse () {
+      from(this.seed.explode())
+        .pipe(
+          delay(3000),
+          mergeMap(sector => this.$golApi.process(sector)),
+          tap(console.log)
+        )
+        .subscribe(
+          cell => this.seed.updateCell(cell),
+          console.error,
+          () => this.updateUniverse()
+        )
     }
   }
 }
 </script>
+
+<style scoped>
+  .row {
+    margin: 0;
+  }
+  .cell {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    background-color: white;
+    border: 1px solid black;
+  }
+  .cell.active {
+    background-color: red;
+  }
+</style>
